@@ -85,6 +85,7 @@ function completeFunc(){
 function deleteFunc(){
   var myId = $(this).data('taskid');
 
+
   var ans = prompt('Are you sure you want to delete this task? type "yes" or "no"');
 
   if(ans === "yes"){
