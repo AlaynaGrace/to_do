@@ -18,10 +18,15 @@ function getTasks(){
     success: function(res){
       console.log(res);
       $('.container').empty();
-      var compButton = '<button id="complete">Complete</button>';
-      for(var i = 0; i< res.length; i++){
-        var deleteButton = '<button id="delete" data-taskid="'+res[i].id+'">Delete</button></p>';
-        $('.container').append('<p class="created-task">' + res[i].task + compButton + deleteButton);
+      if(res.length === 0){
+        $('.container').append('<p id="none">No current tasks</p>');
+      }
+      else{
+        var compButton = '<button id="complete">Complete</button>';
+        for(var i = 0; i< res.length; i++){
+          var deleteButton = '<button id="delete" data-taskid="'+res[i].id+'">Delete</button></p>';
+          $('.container').append('<p class="created-task">' + res[i].task + compButton + deleteButton);
+        }
       }
     }
   });
@@ -43,6 +48,7 @@ function addTask(){
     success: function(res){
       console.log(res);
       getTasks();
+      $('#new-task').val('');
     }
   });
 }
@@ -51,7 +57,11 @@ function addTask(){
 function completeFunc(){
   $(this).parent().removeClass('created-task').addClass('completed');
   $(this).parent().append('<img src="https://d30y9cdsu7xlg0.cloudfront.net/png/835-200.png">');
+  $('.finished').append($(this).parent());
   $(this).hide();
+  if($('.container').text() === ''){
+    $('.container').append('<p id="none">No current tasks</p>');
+  }
 }
 
 //function that happens when user wants to delete a task
