@@ -1,9 +1,10 @@
 .completed{
   color: green;
+  text-decoration: line-through;
 }
 
 .created-task{
-  color: black;
+  color: white;
 }
 img{
   width:25px;
@@ -11,5 +12,39 @@ img{
 }
 
 #none{
-  color: grey;
+  color: white;
+}
+
+button{
+  background-color: transparent;
+  border-color: transparent;
+  border: solid transparent;
+}
+
+#add{
+  width:15px;
+  height:15px;
+}
+body{
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+h2{
+  font-family: monospace;
+  text-decoration: underline;
+  color: white;
+}
+
+body{
+  background-image: url('http://www.graddiary.com/careers-advice/wp-content/uploads/2014/09/to-do-list.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: black;
+  margin-left: 180px;
+  margin-top: 170px;
+  color: white;
+  font-size: 20px;
+}
+input{
+  margin-left: 10px;
 }
