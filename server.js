@@ -6,7 +6,7 @@ var pg = require('pg');
 
 //uses
 app.use(express.static('public'));
-app.us(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 //spin up server
 app.listen(5000, function(){
@@ -22,3 +22,46 @@ var config = {
 };
 
 var pool = new pg.Pool(config);
+
+app.get('/tasks',function(req,res){
+  var allTasks = [];
+  pool.connect(function(err, connection, done){
+    if(err){
+      console.log(err);
+      res.send(400);
+    }
+    else{
+      console.log('connected to db');
+      var resultSet = connection.query('SELECT * FROM tasks');
+      //convert each row into an object in the allTasks array
+      //on each row, push the row into allTasks
+      resultSet.on('row',function(row){
+        allTasks.push(row); //converts to an obj and pushes into arr
+      });
+      //on end of rows, send array as response
+      resultSet.on('end', function(){
+        //always want to run done before res.send ing anything
+        done();
+        res.send(allTasks);
+      });
+    }
+  });
+});
+
+app.post('/newTask',function(req,res){
+  var data = req.body;
+  var qryStr = 'INSERT INTO tasks(task) VALUES($1)';
+
+  pool.connect(function(err,connection,done){
+    if(err){
+      console.log(err);
+      res.send(400);
+    }
+    else{
+      connection.query(qryStr, [data.task]);
+      done();
+      res.send(200);
+    }
+  });
+
+});

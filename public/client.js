@@ -6,6 +6,26 @@ function onReady(){
   $('.container').on('click', '#complete', completeFunc);
   $('.container').on('click', '#delete', deleteFunc);
 
+  getTasks();
+
+}
+
+//get tasks from server/db
+function getTasks(){
+  $.ajax({
+    url: '/tasks',
+    type: 'GET',
+    success: function(res){
+      console.log(res);
+      $('.container').empty();
+      var compButton = '<button id="complete">Complete</button>';
+      for(var i = 0; i< res.length; i++){
+        var deleteButton = '<button id="delete" data-taskid="'+res[i].id+'">Delete</button></p>';
+        $('.container').append('<p>' + res[i].task + compButton + deleteButton);
+      }
+    }
+  });
+
 }
 
 //add a task function
@@ -22,6 +42,7 @@ function addTask(){
     data: objectToSend,
     success: function(res){
       console.log(res);
+      getTasks();
     }
   });
 }
