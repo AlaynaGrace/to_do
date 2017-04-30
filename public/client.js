@@ -18,15 +18,19 @@ function getTasks(){
     success: function(res){
       console.log(res);
       $('.container').empty();
-      if(res.length === 0){
-        $('.container').append('<p id="none">No current tasks</p>');
-      }
-      else{
-        var compButton = '<button id="complete">Complete</button>';
-        for(var i = 0; i< res.length; i++){
-          var deleteButton = '<button id="delete" data-taskid="'+res[i].id+'">Delete</button></p>';
-          $('.container').append('<p class="created-task">' + res[i].task + compButton + deleteButton);
+      $('.finished').empty();
+
+      for(var i = 0; i< res.length; i++){
+        var compButton = '<button id="complete" data-taskid="'+res[i].id+'">Complete</button>';
+        var deleteButton = '<button id="delete" data-taskid="'+res[i].id+'">Delete</button>';
+        if(res[i].completed){
+          $('.finished').append('<p class="completed">' + res[i].task + deleteButton + '<img src="https://d30y9cdsu7xlg0.cloudfront.net/png/835-200.png"></p>');
+        }else{
+          $('.container').append('<p class="created-task">' + res[i].task + compButton + deleteButton + '</p>');
         }
+      }
+      if($('.container').text() === ''){
+        $('.container').append('<p id="none">No current tasks</p>');
       }
     }
   });
@@ -37,7 +41,8 @@ function getTasks(){
 function addTask(){
   //take in values from input
   var objectToSend={
-    task: $('#new-task').val()
+    task: $('#new-task').val(),
+    completed: false
   };
 
   //send that task to the server using ajax
@@ -55,13 +60,26 @@ function addTask(){
 
 // function that happens when a task is completed
 function completeFunc(){
-  $(this).parent().removeClass('created-task').addClass('completed');
-  $(this).parent().append('<img src="https://d30y9cdsu7xlg0.cloudfront.net/png/835-200.png">');
-  $('.finished').append($(this).parent());
-  $(this).hide();
-  if($('.container').text() === ''){
-    $('.container').append('<p id="none">No current tasks</p>');
-  }
+  //update ajax call
+  $.ajax({
+    url: '/completed',
+    type: 'POST',
+    data: {completed: true, id:$(this).data('taskid')},
+    success: function(res){
+      console.log(res);
+      // $(this).parent().removeClass('created-task').addClass('completed');
+      // $(this).parent().append('<img src="https://d30y9cdsu7xlg0.cloudfront.net/png/835-200.png">');
+      // $('.finished').append($(this).parent());
+      // $(this).hide();
+      // if($('.container').text() === ''){
+      //   $('.container').append('<p id="none">No current tasks</p>');
+      // }
+      getTasks();
+    }
+  });
+
+
+
 }
 
 //function that happens when user wants to delete a task

@@ -50,7 +50,7 @@ app.get('/tasks',function(req,res){
 
 app.post('/newTask',function(req,res){
   var data = req.body;
-  var qryStr = 'INSERT INTO tasks(task) VALUES($1)';
+  var qryStr = 'INSERT INTO tasks(task,completed) VALUES($1,$2)';
 
   pool.connect(function(err,connection,done){
     if(err){
@@ -58,7 +58,7 @@ app.post('/newTask',function(req,res){
       res.send(400);
     }
     else{
-      connection.query(qryStr, [data.task]);
+      connection.query(qryStr, [data.task,data.completed]);
       done();
       res.send(200);
     }
@@ -76,5 +76,21 @@ app.delete('/deleteTask',function(req,res){
       done();
       res.send(200);
     }
+  });
+});
+
+app.post('/completed', function(req,res){
+  pool.connect(function(err,connection,done){
+    if(err){
+      console.log(err);
+      res.send(400);
+    }
+    else{
+      console.log(req.body);
+      connection.query('UPDATE tasks SET completed = $1 WHERE id = $2',[req.body.completed, req.body.id]);
+      done();
+      res.send(200);
+    }
+
   });
 });
