@@ -58,16 +58,18 @@ function completeFunc(){
 function deleteFunc(){
   var myId = $(this).data('taskid');
 
-  //delete ajax
-  $.ajax({
-    url: '/deleteTask',
-    type: 'DELETE',
-    data: {id: myId},
-    success: function(res){
-      console.log(res);
-      getTasks();
+  var ans = prompt('Are you sure you want to delete this task? type "yes" or "no"');
 
-    }
-  });
-
+  if(ans === "yes"){
+    //delete ajax
+    $.ajax({
+      url: '/deleteTask',
+      type: 'DELETE',
+      data: {id: myId},
+      success: function(res){
+        console.log(res);
+        getTasks();
+      }
+    });
+  }
 }
