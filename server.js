@@ -63,5 +63,18 @@ app.post('/newTask',function(req,res){
       res.send(200);
     }
   });
+});
 
+app.delete('/deleteTask',function(req,res){
+  pool.connect(function(err,connection,done){
+    if(err){
+      console.log(err);
+      res.send(400);
+    }
+    else{
+      connection.query('DELETE from tasks where id=' + req.body.id );
+      done();
+      res.send(200);
+    }
+  });
 });

@@ -1,0 +1,11 @@
+.completed{
+  color: green;
+}
+
+.created-task{
+  color: black;
+}
+img{
+  width:25px;
+  height:25px;
+}
