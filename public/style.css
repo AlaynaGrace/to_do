@@ -38,10 +38,10 @@ h2{
 body{
   background-image: url('http://www.graddiary.com/careers-advice/wp-content/uploads/2014/09/to-do-list.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-color: black;
-  margin-left: 180px;
-  margin-top: 170px;
+  margin-left: 170px;
+  margin-top: 150px;
   color: white;
   font-size: 20px;
 }
