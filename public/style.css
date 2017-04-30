@@ -1,5 +1,5 @@
 .completed{
-  color: green;
+  color: #d93733;
   text-decoration: line-through;
 }
 
@@ -47,4 +47,7 @@ body{
 }
 input{
   margin-left: 10px;
+}
+div{
+  margin-left: 20px;
 }
